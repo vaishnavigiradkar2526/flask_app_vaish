@@ -11,7 +11,7 @@ function loadData(records = []) {
 		table_data += `<td>`;
 		table_data += `<a href="edit.html?id=${records[i][0]}"><button class="btn btn-primary">Edit</button></a>`;
 		table_data += '&nbsp;&nbsp;';
-		table_data += `<button class="btn btn-danger" onclick=deleteData('${records[i][0]}')>Delete</button>`;
+		//table_data += `<button class="btn btn-danger" onclick=deleteData('${records[i][0]}')>Delete</button>`;
 		table_data += `</td>`;
 		table_data += `</tr>`;
 	}
@@ -94,19 +94,24 @@ function putData() {
 
 function deleteData(id) {
 	user_input = confirm("Are you sure you want to delete this record?");
-	if(user_input) {
-		fetch(api_url, {
-			method: "DELETE",
-			headers: {
-			  'Accept': 'application/json',
-			  'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({"_id": id})
-		})
-		.then((response) => response.json())
-		.then((data) => { 
-			console.log(data); 
-			window.location.reload();
-		})
-	}
+    
+    if(user_input) {
+        fetch(`${api_url}?id=${id}`, {
+        method: "DELETE",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({[0]: id})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+           // location=location.href;
+		window.location.reload();
+        })
+    }
+	//location=location.href;
+	window.location.reload();
+
 }
